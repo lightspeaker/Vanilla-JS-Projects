@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Storage</title>
+    <!--CSS-->
+    <style media="screen">
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #48435c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font: 14px/16px "Montserrat", sans-serif;
+        color: #edffec;
+      }
+      form {
+        margin: 15px;
+      }
+      fieldset {
+        margin: 10px 0;
+        padding: 30px;
+        border-color: #61e786;
+      }
+      legend {
+        color: #61e786;
+      }
+      label {
+        margin-left: 15px;
+        margin-right: 3px;
+      }
+      input {
+        line-height: 1;
+        border: 2px solid #edffec;
+        border-radius: 2px;
+        padding: 5px;
+        font-size: 14px;
+        outline: none;
+      }
+      button {
+        padding: 5px;
+        background-color: #61e786;
+        color: #5a5766;
+        border: 2px solid #61e786;
+        border-radius: 2px;
+        outline: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      #save-button {
+        margin-top: 20px;
+        width: 100%;
+      }
+      .data-container {
+        display: flex;
+        justify-content: space-around;
+      }
+      #show-data {
+        line-height: 1.5;
+        width: 50%;
+      }
+      .remove {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+      }
+      .remove label,
+      input {
+        margin-bottom: 15px;
+        margin-left: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <fieldset>
+        <legend>Place your data</legend>
+        <label for="key">Key</label>
+        <input type="text" id="key" placeholder="Enter key..." />
+        <label for="input">Value</label>
+        <input type="text" id="input" placeholder="Enter value..." />
+        <br />
+        <button type="button" id="save-button">
+          Save to LocalStorage
+        </button>
+      </fieldset>
+      <fieldset>
+        <legend>Show my data</legend>
+        <div class="data-container">
+          <div id="show-data"></div>
+          <div class="remove">
+            <!-- <label for="remove">Key</label> -->
+            <input type="text" id="remove" placeholder="Key to remove..." />
+            <button type="button" id="remove-button">Remove value</button>
+          </div>
+        </div>
+      </fieldset>
+      <button type="button" id="clear-button">
+        Clear the LocalStorage
+      </button>
+    </form>
+
+    <script type="text/javascript">
+      var key = document.getElementById("key");
+      var input = document.getElementById("input");
+      var remove = document.getElementById("remove");
+
+      var saveButton = document.getElementById("save-button");
+      var clearButton = document.getElementById("clear-button");
+      var removeButton = document.getElementById("remove-button");
+
+      var showData = document.getElementById("show-data");
+
+      //Save Button
+      saveButton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        var keyValue = key.value;
+        var inputValue = input.value;
+
+        if (keyValue && inputValue) {
+          localStorage.setItem(keyValue, inputValue);
+        }
+
+        location.reload();
+      });
+
+      //Display Data
+      for (var i = 0; i < localStorage.length; i++) {
+        var keyDisplay = localStorage.key(i);
+        var valueDisplay = localStorage.getItem(keyDisplay);
+
+        showData.innerHTML += `${keyDisplay}: ${valueDisplay}<br />`;
+      }
+
+      //Remove Button
+      removeButton.addEventListener("click", function (e) {
+        var removeValue = remove.value;
+        localStorage.removeItem(removeValue);
+
+        location.reload();
+      });
+
+      //Clear Button
+      clearButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        localStorage.clear();
+
+        showData.innerHTML = "";
+      });
+    </script>
+  </body>
+</html>
